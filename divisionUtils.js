@@ -1,5 +1,5 @@
 const division = (numbers) =>
-  numbers.reduce((acumulator, number) => acumulator / number);
+  numbers.reduce((result, number) => result / number);
 
 const logDivision = (numbers) =>
   `The division of ${numbers[0]} and ${numbers[1]} is ${division(numbers)}`;

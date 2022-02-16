@@ -1,5 +1,5 @@
 const subtract = (numbers) => {
-  return numbers.reduce((acumulator, number) => acumulator - number);
+  return numbers.reduce((result, number) => result - number);
 };
 
 const logSubstract = (numbers) =>
