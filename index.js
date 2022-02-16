@@ -1,34 +1,37 @@
 require("dotenv").config();
 const debug = require("debug");
-const chalk = require("chalk");
+const prompt = require("prompt");
 const { program } = require("commander");
 const { addUtils } = require("./addUtils");
-
 const { substractUtils } = require("./subtractUtils");
 const { productUtils } = require("./productUtils");
 const { divisionUtils } = require("./divisionUtils");
+const { isValidInput } = require("./isValidInput");
 
 const calc = debug("calc:");
-const errorMsg = debug("ERROR:");
+prompt.start();
 
 program.requiredOption("-n, --numbers <number...>");
 program.parse(process.argv);
 
-const numbers = program
+let numbers = program
   .opts()
   .numbers.flatMap((input, index) => (index <= 1 ? Number(input) : []));
-if (numbers.length < 2) {
-  errorMsg(chalk.red("provide 2 values"));
-  process.exit();
-}
-numbers.forEach((number) => {
-  if (Number.isNaN(number)) {
-    errorMsg(chalk.red("some value is not a number... exiting"));
-    process.exit();
-  }
-});
 
-calc(addUtils.logAddition(numbers));
-calc(substractUtils.logSubstract(numbers));
-calc(productUtils.logProduct(numbers));
-calc(divisionUtils.logDivision(numbers));
+const logResults = (numbers) => {
+  calc(addUtils.logAddition(numbers));
+  calc(substractUtils.logSubstract(numbers));
+  calc(productUtils.logProduct(numbers));
+  calc(divisionUtils.logDivision(numbers));
+};
+
+(async () => {
+  if (!isValidInput(numbers)) {
+    do {
+      numbers = Object.values(
+        await prompt.get(["firstNumber", "secondNumber"])
+      );
+    } while (!isValidInput(numbers));
+  }
+  logResults(numbers);
+})();

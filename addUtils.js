@@ -1,5 +1,5 @@
 const add = (numbers) => {
-  return numbers.reduce((acumulator, number) => acumulator + number, 0);
+  return numbers.reduce((result, number) => result + number, 0);
 };
 
 const logAddition = (numbers) =>
